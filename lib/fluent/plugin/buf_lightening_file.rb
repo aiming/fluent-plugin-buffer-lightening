@@ -70,6 +70,13 @@ module Fluent
       return queue, map
     end
 
+    def chunk_identifier_in_path(path)
+      pos_after_prefix = @buffer_path_prefix.length
+      pos_before_suffix = @buffer_path_suffix.length + 1 # from tail of path
+
+      path.slice(pos_after_prefix..-pos_before_suffix)
+    end
+
     def storable?(chunk, data)
       return false if chunk.size + data.bytesize > @buffer_chunk_limit
       return false if @buffer_chunk_records_limit && chunk.record_counter >= @buffer_chunk_records_limit
